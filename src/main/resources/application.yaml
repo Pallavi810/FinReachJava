@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    gcp:
+      project-id: phrasal-insight-465612-n2
+      credentials:
+        location: 'C:\Users\palla\FinReach\src\main\resources\phrasal-insight-465612-n2-24c5c97c49d9.json'
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
