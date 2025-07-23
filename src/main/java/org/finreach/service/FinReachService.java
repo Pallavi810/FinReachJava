@@ -20,7 +20,7 @@ public class FinReachService {
     AccountInfoService accountInfoService;
     private final BigQuery bigquery;
     public FinReachService() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/servicekey.json"));
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/key.json"));
          bigquery = BigQueryOptions.newBuilder()
                 .setCredentials(credentials)
                 .setProjectId("concrete-flight-466607-e5")

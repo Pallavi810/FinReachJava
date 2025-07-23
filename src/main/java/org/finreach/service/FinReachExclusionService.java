@@ -18,7 +18,7 @@ public class FinReachExclusionService {
     AccountInfoService accountInfoService;
     private final BigQuery bigquery;
     public FinReachExclusionService() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/servicekey.json"));
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/key.json"));
          bigquery = BigQueryOptions.newBuilder()
                 .setCredentials(credentials)
                 .setProjectId("concrete-flight-466607-e5")
