@@ -3,7 +3,7 @@ spring:
     gcp:
       project-id: phrasal-insight-465612-n2
       credentials:
-        location: 'C:\Users\palla\FinReach\src\main\resources\servicekey.json'
+        location: '\resources\servicekey.json'
 
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

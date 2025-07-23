@@ -6,8 +6,8 @@ import org.finreach.model.AccountInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,12 @@ public class FinReachExclusionService {
     AccountInfoService accountInfoService;
     private final BigQuery bigquery;
     public FinReachExclusionService() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/key.json"));
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("key.json");
+        if(inputStream == null )
+        {
+            throw new RuntimeException("File key not found ");
+        }
+        GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
          bigquery = BigQueryOptions.newBuilder()
                 .setCredentials(credentials)
                 .setProjectId("concrete-flight-466607-e5")
