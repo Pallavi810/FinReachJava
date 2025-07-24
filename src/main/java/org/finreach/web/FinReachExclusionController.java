@@ -1,6 +1,7 @@
 package org.finreach.web;
 
 import org.finreach.model.AccountInfo;
+import org.finreach.model.ExclusionClassSummary;
 import org.finreach.service.FinReachExclusionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,14 @@ public class FinReachExclusionController {
     public Map<String, Long> countExcludedByMonthAndYear() throws InterruptedException, IOException {
         // Replace Object with the actual return type of getTableData
         return finReachExclusionService.getCountExcludedAccountsByMonthAndYear();
+
+    }
+
+    @GetMapping("countExclusionLocationGender")
+    @ResponseBody
+    public List<ExclusionClassSummary> countExclusionLocationGender() throws InterruptedException, IOException {
+        // Replace Object with the actual return type of getTableData
+        return finReachExclusionService.getExclusionByLocationAndGender();
 
     }
 

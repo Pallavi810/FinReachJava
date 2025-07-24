@@ -3,14 +3,13 @@ package org.finreach.service;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.bigquery.*;
 import org.finreach.model.AccountInfo;
+import org.finreach.model.ExclusionClassSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FinReachExclusionService {
@@ -18,7 +17,7 @@ public class FinReachExclusionService {
     AccountInfoService accountInfoService;
     private final BigQuery bigquery;
     public FinReachExclusionService() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/key.json"));
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/keyFile.json"));
          bigquery = BigQueryOptions.newBuilder()
                 .setCredentials(credentials)
                 .setProjectId("concrete-flight-466607-e5")
@@ -247,6 +246,58 @@ public class FinReachExclusionService {
             occupationMap.put(occupation, count);
         }
         return occupationMap;
+
+    }
+    public List<ExclusionClassSummary> getExclusionByLocationAndGender() throws InterruptedException {
+
+        String   query="SELECT\n" +
+                "  Location,\n" +
+                "  Gender,\n" +
+                "  cls,\n" +
+                "  COUNT(*) AS class_count\n" +
+                "FROM (\n" +
+                "  SELECT\n" +
+                "    Location,\n" +
+                "    Gender,\n" +
+                "    (\n" +
+                "      SELECT cls\n" +
+                "      FROM UNNEST(predicted_ExclusionStatus.classes) AS cls WITH OFFSET AS cls_offset\n" +
+                "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
+                "      ON cls_offset = score_offset\n" +
+                "      WHERE (cls = \"Excluded\" OR cls = \"AtRisk\") AND score > 0.01\n" +
+                "      LIMIT 1\n" +
+                "    ) AS cls\n" +
+                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                ")\n" +
+                "WHERE cls IS NOT NULL\n" +
+                "GROUP BY Location, Gender, cls\n" +
+                "ORDER BY Location, Gender, cls;";
+
+
+
+
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
+
+        TableResult result = bigquery.query(queryConfig);
+        Map<String, ExclusionClassSummary> summaryMap = new HashMap<>();
+
+        for (FieldValueList row : result.iterateAll()) {
+            String location = row.get("Location").getStringValue();
+            String gender = row.get("Gender").getStringValue();
+            String cls = row.get("cls").getStringValue();
+            long count = row.get("class_count").getLongValue();
+
+            ExclusionClassSummary summary = summaryMap.computeIfAbsent(location, loc -> {
+                ExclusionClassSummary s = new ExclusionClassSummary();
+                s.setLocation(loc);
+                return s;
+            });
+
+            summary.update(gender, cls, count);
+        }
+
+        return new ArrayList<>(summaryMap.values());
+
 
     }
 }
