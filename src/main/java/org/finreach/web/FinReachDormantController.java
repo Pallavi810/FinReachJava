@@ -1,6 +1,7 @@
 package org.finreach.web;
 
 import org.finreach.model.AccountInfo;
+import org.finreach.model.DormantSummary;
 import org.finreach.service.FinReachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,14 @@ public class FinReachDormantController {
     public Map<String, Long> countDormantByMonthAndYear() throws InterruptedException, IOException {
         // Replace Object with the actual return type of getTableData
         return finReachService.getCountDormantAccountsByMonthAndYear();
+
+    }
+
+    @GetMapping("countDormantLocationGender")
+    @ResponseBody
+    public List<DormantSummary> countDormantLocationGender() throws InterruptedException, IOException {
+        // Replace Object with the actual return type of getTableData
+        return finReachService.getDormantByLocationAndGender();
 
     }
 

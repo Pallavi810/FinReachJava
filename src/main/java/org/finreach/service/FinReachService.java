@@ -2,10 +2,14 @@ package org.finreach.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.bigquery.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.finreach.model.AccountInfo;
+import org.finreach.model.DormantSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -239,6 +243,56 @@ public class FinReachService {
             occupationMap.put(occupation, count);
         }
         return occupationMap;
+
+    }
+
+    public List<DormantSummary> getDormantByLocationAndGender() throws InterruptedException {
+
+        String   query="SELECT\n" +
+                "  Location,\n" +
+                "  Gender,\n" +
+                "  COUNT(*) AS dormant_count\n" +
+                "FROM (\n" +
+                "  SELECT\n" +
+                "    Location,\n" +
+                "    Gender,\n" +
+                "    (\n" +
+                "      SELECT score\n" +
+                "      FROM UNNEST(predicted_IsDormant.classes) AS cls WITH OFFSET AS cls_offset\n" +
+                "      JOIN UNNEST(predicted_IsDormant.scores) AS score WITH OFFSET AS score_offset\n" +
+                "      ON cls_offset = score_offset\n" +
+                "      WHERE cls = \"True\"\n" +
+                "      LIMIT 1\n" +
+                "    ) AS true_score\n" +
+                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                ")\n" +
+                "WHERE true_score IS NOT NULL AND true_score > 0.5\n" +
+                "GROUP BY Location, Gender\n" +
+                "ORDER BY Location, Gender;";
+
+
+
+
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
+
+        TableResult result = bigquery.query(queryConfig);
+        Map<String, DormantSummary> summaryMap = new HashMap<>();
+
+        for (FieldValueList row : result.iterateAll()) {
+            String location = row.get("Location").getStringValue();
+            String gender = row.get("Gender").getStringValue();
+            long count = row.get("dormant_count").getLongValue();
+
+            DormantSummary summary = summaryMap.computeIfAbsent(location, loc -> {
+                DormantSummary s = new DormantSummary();
+                s.setLocation(loc);
+                return s;
+            });
+
+            summary.addCount(gender, count);
+        }
+
+        return new ArrayList<>(summaryMap.values());
 
     }
 }
