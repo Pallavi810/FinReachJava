@@ -21,14 +21,14 @@ public class FinReachExclusionService {
     AccountInfoService accountInfoService;
     private final BigQuery bigquery;
     public FinReachExclusionService() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("key.json");
+        /*InputStream inputStream = getClass().getClassLoader().getResourceAsStream("key.json");
         if(inputStream == null )
         {
             throw new RuntimeException("File key not found ");
         }
-        GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
+        GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);*/
          bigquery = BigQueryOptions.newBuilder()
-                .setCredentials(credentials)
+                //.setCredentials(credentials)
                 .setProjectId("concrete-flight-466607-e5")
                 .setLocation("us-central1")
                 .build()
@@ -58,6 +58,8 @@ public class FinReachExclusionService {
 
         return accountInfoService.convertTableResult(result);
     }
+
+
 
     public Long getCountExcludedAccountsByGender(String gender) throws InterruptedException {
         String query = "";
