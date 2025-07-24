@@ -28,8 +28,8 @@ public class FinReachService {
        // GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
          bigquery = BigQueryOptions.newBuilder()
                 //.setCredentials(credentials)
-                .setProjectId("concrete-flight-466607-e5")
-                .setLocation("us-central1")
+                .setProjectId("hack-team-finreach")
+                .setLocation("asia-south1")
                 .build()
                 .getService();
     }
@@ -46,7 +46,7 @@ public class FinReachService {
                 "      WHERE cls = \"True\"\n" +
                 "      LIMIT 1\n" +
                 "    ) AS true_score\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                 ")\n" +
                 "WHERE true_score IS NOT NULL AND true_score > 0.5";
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
@@ -71,7 +71,7 @@ public class FinReachService {
                      "      WHERE cls = \"True\"\n" +
                      "      LIMIT 1\n" +
                      "    ) AS true_score\n" +
-                     "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                     "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                      ")\n" +
                      "WHERE true_score IS NOT NULL AND true_score > 0.5 AND Gender = \"Female\"; ";
         }
@@ -88,7 +88,7 @@ public class FinReachService {
                    "      WHERE cls = \"True\"\n" +
                    "      LIMIT 1\n" +
                    "    ) AS true_score\n" +
-                   "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                   "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                    ")\n" +
                    "WHERE true_score IS NOT NULL AND true_score > 0.5 AND Gender = \"Male\"; ";
         }
@@ -113,7 +113,7 @@ public class FinReachService {
                 "      WHERE cls = \"True\"\n" +
                 "      LIMIT 1\n" +
                 "    ) AS true_score\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                 ")\n" +
                 "WHERE true_score IS NOT NULL AND true_score > 0.5 AND CAST(age AS INT64) BETWEEN @minAge AND @maxAge";
 
@@ -144,7 +144,7 @@ public class FinReachService {
                  "      WHERE cls = \"True\"\n" +
                  "      LIMIT 1\n" +
                  "    ) AS true_score\n" +
-                 "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                 "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                  ")\n" +
                  "WHERE true_score IS NOT NULL AND true_score > 0.5\n" +
                  "GROUP BY CustomerOccupation\n" +
@@ -182,7 +182,7 @@ public class FinReachService {
                 "      WHERE cls = \"True\"\n" +
                 "      LIMIT 1\n" +
                 "    ) AS true_score\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                 ")\n" +
                 "WHERE true_score IS NOT NULL AND true_score > 0.5\n" +
                 "GROUP BY Location\n" +
@@ -221,7 +221,7 @@ public class FinReachService {
                 "      WHERE cls = \"True\"\n" +
                 "      LIMIT 1\n" +
                 "    ) AS true_score\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                 ")\n" +
                 "WHERE true_score IS NOT NULL AND true_score > 0.5\n" +
                 "GROUP BY month\n" +
@@ -262,7 +262,7 @@ public class FinReachService {
                 "      WHERE cls = \"True\"\n" +
                 "      LIMIT 1\n" +
                 "    ) AS true_score\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T10_23_26_330Z_365`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T07_44_29_840Z_384`\n" +
                 ")\n" +
                 "WHERE true_score IS NOT NULL AND true_score > 0.5\n" +
                 "GROUP BY Location, Gender\n" +

@@ -29,8 +29,8 @@ public class FinReachExclusionService {
         GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);*/
          bigquery = BigQueryOptions.newBuilder()
                 //.setCredentials(credentials)
-                .setProjectId("concrete-flight-466607-e5")
-                .setLocation("us-central1")
+                .setProjectId("hack-team-finreach")
+                .setLocation("asia-south1")
                 .build()
                 .getService();
     }
@@ -45,7 +45,7 @@ public class FinReachExclusionService {
                 "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                 "      ON cls_offset = score_offset\n" +
                 "    ) AS class_scores\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                 ")\n" +
                 "WHERE EXISTS (\n" +
                 "  SELECT 1\n" +
@@ -74,7 +74,7 @@ public class FinReachExclusionService {
                      "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                      "      ON cls_offset = score_offset\n" +
                      "    ) AS class_scores\n" +
-                     "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                     "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                      ")\n" +
                      "WHERE EXISTS (\n" +
                      "  SELECT 1\n" +
@@ -94,7 +94,7 @@ public class FinReachExclusionService {
                    "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                    "      ON cls_offset = score_offset\n" +
                    "    ) AS class_scores\n" +
-                   "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                   "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                    ")\n" +
                    "WHERE EXISTS (\n" +
                    "  SELECT 1\n" +
@@ -124,7 +124,7 @@ public class FinReachExclusionService {
                   "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                   "      ON cls_offset = score_offset\n" +
                   "    ) AS class_scores\n" +
-                  "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                  "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                   ")\n" +
                   "WHERE EXISTS (\n" +
                   "  SELECT 1\n" +
@@ -156,7 +156,7 @@ public class FinReachExclusionService {
                  "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                  "      ON cls_offset = score_offset\n" +
                  "    ) AS class_scores\n" +
-                 "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                 "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                  ")\n" +
                  "WHERE EXISTS (\n" +
                  "  SELECT 1\n" +
@@ -193,7 +193,7 @@ public class FinReachExclusionService {
                 "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                 "      ON cls_offset = score_offset\n" +
                 "    ) AS class_scores\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                 ")\n" +
                 "WHERE EXISTS (\n" +
                 "  SELECT 1\n" +
@@ -233,7 +233,7 @@ public class FinReachExclusionService {
                 "      JOIN UNNEST(predicted_ExclusionStatus.scores) AS score WITH OFFSET AS score_offset\n" +
                 "      ON cls_offset = score_offset\n" +
                 "    ) AS class_scores\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                 ")\n" +
                 "WHERE EXISTS (\n" +
                 "  SELECT 1\n" +
@@ -278,7 +278,7 @@ public class FinReachExclusionService {
                 "      WHERE (cls = \"Excluded\" OR cls = \"AtRisk\") AND score > 0.01\n" +
                 "      LIMIT 1\n" +
                 "    ) AS cls\n" +
-                "  FROM `concrete-flight-466607-e5.FinReach.predictions_2025_07_22T00_19_24_475Z_105`\n" +
+                "  FROM `hack-team-finreach.FinReach.predictions_2025_07_24T08_51_37_539Z_730`\n" +
                 ")\n" +
                 "WHERE cls IS NOT NULL\n" +
                 "GROUP BY Location, Gender, cls\n" +
